@@ -9,12 +9,6 @@ from django.db import models
 from lib.models import BaseModel
 
 
-def handler(instance, filename):
-    name = os.path.basename(filename)
-    main, ext = os.path.splitext(name)
-    return '{}/{}{}'.format(instance.username, instance.username, ext)
-
-
 class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     username_validator = UnicodeUsernameValidator()
 
@@ -36,7 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     bio = models.TextField(_('biography'), help_text='Write about yourself',
                            blank=True, null=True)
     avatar = models.ImageField(upload_to=lambda x, y: '{}/{}'.format(
-                               x.username, os.path.basename(y)),
+        x.username, os.path.basename(y)),
                                help_text='Upload your photo', blank=True,
                                null=True)
     is_staff = models.BooleanField(
